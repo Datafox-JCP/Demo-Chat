@@ -8,17 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		C62E9EDC2873887A0048C8D4 /* Datafox_ChatApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9EDB2873887A0048C8D4 /* Datafox_ChatApp.swift */; };
-		C62E9EDE2873887A0048C8D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9EDD2873887A0048C8D4 /* ContentView.swift */; };
+		C62E9EDE2873887A0048C8D4 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9EDD2873887A0048C8D4 /* RootView.swift */; };
 		C62E9EE02873887C0048C8D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C62E9EDF2873887C0048C8D4 /* Assets.xcassets */; };
 		C62E9EE32873887C0048C8D4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C62E9EE22873887C0048C8D4 /* Preview Assets.xcassets */; };
+		C62E9EF32873AC2E0048C8D4 /* LexendDeca-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C62E9EF02873AC2E0048C8D4 /* LexendDeca-SemiBold.ttf */; };
+		C62E9EF42873AC2E0048C8D4 /* LexendDeca-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C62E9EF12873AC2E0048C8D4 /* LexendDeca-Bold.ttf */; };
+		C62E9EF52873AC2E0048C8D4 /* LexendDeca-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C62E9EF22873AC2E0048C8D4 /* LexendDeca-Regular.ttf */; };
+		C62E9EF72873AF010048C8D4 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9EF62873AF010048C8D4 /* Fonts.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C62E9ED82873887A0048C8D4 /* Datafox Chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Datafox Chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C62E9EDB2873887A0048C8D4 /* Datafox_ChatApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Datafox_ChatApp.swift; sourceTree = "<group>"; };
-		C62E9EDD2873887A0048C8D4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C62E9EDD2873887A0048C8D4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		C62E9EDF2873887C0048C8D4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C62E9EE22873887C0048C8D4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		C62E9EEF2873A9520048C8D4 /* Datafox-Chat-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Datafox-Chat-Info.plist"; sourceTree = SOURCE_ROOT; };
+		C62E9EF02873AC2E0048C8D4 /* LexendDeca-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-SemiBold.ttf"; sourceTree = "<group>"; };
+		C62E9EF12873AC2E0048C8D4 /* LexendDeca-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Bold.ttf"; sourceTree = "<group>"; };
+		C62E9EF22873AC2E0048C8D4 /* LexendDeca-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "LexendDeca-Regular.ttf"; sourceTree = "<group>"; };
+		C62E9EF62873AF010048C8D4 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +60,14 @@
 		C62E9EDA2873887A0048C8D4 /* Datafox Chat */ = {
 			isa = PBXGroup;
 			children = (
+				C62E9EEF2873A9520048C8D4 /* Datafox-Chat-Info.plist */,
 				C62E9EDB2873887A0048C8D4 /* Datafox_ChatApp.swift */,
-				C62E9EDD2873887A0048C8D4 /* ContentView.swift */,
+				C62E9EEE28738A970048C8D4 /* Views */,
+				C62E9EED28738A8F0048C8D4 /* ViewModels */,
+				C62E9EEC28738A8A0048C8D4 /* Models */,
+				C62E9EEB28738A7D0048C8D4 /* Services */,
+				C62E9EEA28738A780048C8D4 /* Helpers */,
+				C62E9EE928738A5B0048C8D4 /* Fonts */,
 				C62E9EDF2873887C0048C8D4 /* Assets.xcassets */,
 				C62E9EE12873887C0048C8D4 /* Preview Content */,
 			);
@@ -65,6 +80,53 @@
 				C62E9EE22873887C0048C8D4 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		C62E9EE928738A5B0048C8D4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				C62E9EF12873AC2E0048C8D4 /* LexendDeca-Bold.ttf */,
+				C62E9EF22873AC2E0048C8D4 /* LexendDeca-Regular.ttf */,
+				C62E9EF02873AC2E0048C8D4 /* LexendDeca-SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		C62E9EEA28738A780048C8D4 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C62E9EF62873AF010048C8D4 /* Fonts.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		C62E9EEB28738A7D0048C8D4 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		C62E9EEC28738A8A0048C8D4 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C62E9EED28738A8F0048C8D4 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		C62E9EEE28738A970048C8D4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C62E9EDD2873887A0048C8D4 /* RootView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,8 +187,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C62E9EF52873AC2E0048C8D4 /* LexendDeca-Regular.ttf in Resources */,
 				C62E9EE32873887C0048C8D4 /* Preview Assets.xcassets in Resources */,
 				C62E9EE02873887C0048C8D4 /* Assets.xcassets in Resources */,
+				C62E9EF42873AC2E0048C8D4 /* LexendDeca-Bold.ttf in Resources */,
+				C62E9EF32873AC2E0048C8D4 /* LexendDeca-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +202,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C62E9EDE2873887A0048C8D4 /* ContentView.swift in Sources */,
+				C62E9EDE2873887A0048C8D4 /* RootView.swift in Sources */,
+				C62E9EF72873AF010048C8D4 /* Fonts.swift in Sources */,
 				C62E9EDC2873887A0048C8D4 /* Datafox_ChatApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +336,7 @@
 				DEVELOPMENT_TEAM = T2Q4YR3P44;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Datafox-Chat-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -299,6 +366,7 @@
 				DEVELOPMENT_TEAM = T2Q4YR3P44;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Datafox-Chat-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
