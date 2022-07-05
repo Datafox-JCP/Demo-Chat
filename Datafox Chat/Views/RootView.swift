@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct RootView: View {
+    @State var selectedTab: Tabs = .contacts
+    
     var body: some View {
         VStack {
             Text("Fuente personalizada")
                 .padding()
                 .font(Font.chatHeading)
             
-            Text("Fuente regular")
-                .fontWeight(.bold)
-                .padding()
+            Spacer()
+            
+            CustomTabBar(selectedTab: $selectedTab)
                 
         }
         
