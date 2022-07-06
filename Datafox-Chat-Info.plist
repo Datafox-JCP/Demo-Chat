@@ -17,5 +17,7 @@
 	<array>
 		<string></string>
 	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>Sync you contacts to chat with them</string>
 </dict>
 </plist>
