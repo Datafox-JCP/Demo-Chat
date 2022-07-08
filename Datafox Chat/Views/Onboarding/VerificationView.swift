@@ -1,25 +1,27 @@
-//
-//  VerificationView.swift
-//  Datafox Chat
-//
-//  Created by Juan Hernandez Pazos on 04/07/22.
-//
+    //
+    //  VerificationView.swift
+    //  Datafox Chat
+    //
+    //  Created by Juan Hernandez Pazos on 04/07/22.
+    //
 
 import SwiftUI
+import Combine
 
 struct VerificationView: View {
     
     @Binding var currentStep: OnboardingStep
+    @Binding var isOnboarding: Bool
     
-    @State var phoneNumber = ""
-
+    @State var verificationcode = ""
+    
     var body: some View {
         VStack {
             Text("Verification")
                 .font(Font.titleText)
                 .padding(.top, 52)
             
-            Text("Enter your mobile number below, we'll send you a verification code after.")
+            Text("Enter the 6 digit verification code we sent to your device")
                 .font(Font.bodyParagraph)
                 .padding(.top, 12)
             
@@ -29,15 +31,18 @@ struct VerificationView: View {
                     .foregroundColor(Color("input"))
                 
                 HStack {
-                    
-                    TextField("e.g. +1 613 515 0123", text: $phoneNumber)
+                    TextField("", text: $verificationcode)
                         .font(Font.bodyParagraph)
+                        .keyboardType(.numberPad)
+                        .onReceive(Just(verificationcode)) { _ in
+                            TextHelper.limitText(&verificationcode, 6)
+                        }
                     
                     Spacer()
                     
                     Button {
-                        // Clear text fields
-                        phoneNumber = ""
+                            // Clear text fields
+                        verificationcode = ""
                     } label: {
                         Image(systemName: "multiply.circle.fill")
                     }
@@ -51,8 +56,22 @@ struct VerificationView: View {
             Spacer()
             
             Button {
-                // Next step
-                currentStep = .profile
+                    // Send the verification code to Firebase
+                AuthViewModel.verifyCode(code: verificationcode) { error in
+                        // Check for errors
+                    if error == nil {
+                        // Check if this user has a profile
+                        DatabaseService().checkUserProfile { exists in
+                            if exists {
+                                isOnboarding = false
+                            } else {
+                                currentStep = .profile
+                            }
+                        }
+                    } else {
+                            // TODO: Show the error message
+                    }
+                }
                 
             } label: {
                 Text("Next")
@@ -66,6 +85,6 @@ struct VerificationView: View {
 
 struct VerificationView_Previews: PreviewProvider {
     static var previews: some View {
-        VerificationView(currentStep: .constant(.verification))
+        VerificationView(currentStep: .constant(.verification), isOnboarding: .constant(false))
     }
 }

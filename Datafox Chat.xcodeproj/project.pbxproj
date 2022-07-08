@@ -36,6 +36,7 @@
 		C62E9F202874FA550048C8D4 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9F1F2874FA550048C8D4 /* User.swift */; };
 		C62E9F222874FD9A0048C8D4 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9F212874FD9A0048C8D4 /* DatabaseService.swift */; };
 		C62E9F24287500AA0048C8D4 /* TextHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9F23287500AA0048C8D4 /* TextHelper.swift */; };
+		C62E9F26287516560048C8D4 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9F25287516560048C8D4 /* ImagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		C62E9F1F2874FA550048C8D4 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C62E9F212874FD9A0048C8D4 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		C62E9F23287500AA0048C8D4 /* TextHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextHelper.swift; sourceTree = "<group>"; };
+		C62E9F25287516560048C8D4 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 				C62E9F132873D8A40048C8D4 /* VerificationView.swift */,
 				C62E9F152873D8B00048C8D4 /* CreateProfileView.swift */,
 				C62E9F172873D8BF0048C8D4 /* SyncContactsView.swift */,
+				C62E9F25287516560048C8D4 /* ImagePicker.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				C62E9EF72873AF010048C8D4 /* Fonts.swift in Sources */,
 				C62E9F142873D8A40048C8D4 /* VerificationView.swift in Sources */,
 				C62E9F1E2874BE160048C8D4 /* ContactsViewModel.swift in Sources */,
+				C62E9F26287516560048C8D4 /* ImagePicker.swift in Sources */,
 				C62E9EFC2873BB630048C8D4 /* TabBarButton.swift in Sources */,
 				C62E9EDC2873887A0048C8D4 /* Datafox_ChatApp.swift in Sources */,
 			);

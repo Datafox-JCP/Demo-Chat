@@ -18,7 +18,7 @@ struct CustomTabBar: View {
     var body: some View {
         HStack(alignment: .center) {
             Button {
-                // Switch to chats
+                    // Switch to chats
                 selectedTab = .chats
             } label: {
                 TabBarButton(buttonText: "Chats", imageName: "bubble.left", isActive: selectedTab == .chats)
@@ -27,6 +27,7 @@ struct CustomTabBar: View {
             
             Button {
                     // New chat
+                AuthViewModel.logout()
             } label: {
                 VStack(alignment: .center, spacing: 4) {
                     Image(systemName: "plus.circle.fill")

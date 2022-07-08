@@ -6,12 +6,13 @@
 //
 
 import SwiftUI
+import Combine
 
 struct PhoneNumberView: View {
     
     @Binding var currentStep: OnboardingStep
     
-    @State var verificationcode = ""
+    @State var phoneNumber = ""
 
     var body: some View {
         VStack {
@@ -19,7 +20,7 @@ struct PhoneNumberView: View {
                 .font(Font.titleText)
                 .padding(.top, 52)
             
-            Text("Enter the 6 digit verification code we sent to your device")
+            Text("Enter your mobile number below, we'll send you a verification code after.")
                 .font(Font.bodyParagraph)
                 .padding(.top, 12)
             
@@ -29,14 +30,19 @@ struct PhoneNumberView: View {
                     .foregroundColor(Color("input"))
                 
                 HStack {
-                    TextField("", text: $verificationcode)
+                    
+                    TextField("e.g. +1 613 515 0123", text: $phoneNumber)
                         .font(Font.bodyParagraph)
+                        .keyboardType(.phonePad)
+                        .onReceive(Just(phoneNumber)) { _ in
+                            TextHelper.applyPatternOnNumbers(&phoneNumber, pattern: "+# (###) ###-####", replacementCharacter: "#")
+                        }
                     
                     Spacer()
                     
                     Button {
                         // Clear text fields
-                        verificationcode = ""
+                        phoneNumber = ""
                     } label: {
                         Image(systemName: "multiply.circle.fill")
                     }
@@ -50,8 +56,16 @@ struct PhoneNumberView: View {
             Spacer()
             
             Button {
-                // Next step
-                currentStep = .profile
+                // Send ther phone number to Firebase Auth
+                AuthViewModel.sendPhoneNumber(phone: phoneNumber) { error in
+                    // Check for errors
+                    if error == nil {
+                        currentStep = .verification
+                    } else {
+                        // TODO: Show the error message
+                    }
+                }
+                
             } label: {
                 Text("Next")
             }
@@ -60,6 +74,7 @@ struct PhoneNumberView: View {
         }
         .padding(.horizontal)
     }
+    
 }
 
 struct PhoneNumberView_Previews: PreviewProvider {
