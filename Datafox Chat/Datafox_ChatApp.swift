@@ -16,6 +16,7 @@ struct Datafox_ChatApp: App {
         WindowGroup {
             RootView()
                 .environmentObject(ContactsViewModel())
+                .environmentObject(ChatViewModel())
         }
     }
 }

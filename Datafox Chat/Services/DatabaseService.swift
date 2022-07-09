@@ -10,7 +10,6 @@ import Contacts
 import Firebase
 import UIKit
 import FirebaseStorage
-import FirebaseFirestore
 
 class DatabaseService {
     
@@ -71,11 +70,11 @@ class DatabaseService {
         
             // Ensure that the user is logged in
         guard AuthViewModel.isUserLoggedIn() != false else {
-            // User is not logged in
+                // User is not logged in
             return
         }
         
-        // Get user0s phone number
+            // Get users phone number
         let userPhone = TextHelper.samitizePhoneNumber(AuthViewModel.getLoggedInUserPhone())
         
             // Get a reference to Firestore
@@ -109,41 +108,150 @@ class DatabaseService {
                 
                 if error == nil && meta != nil
                 {
-                        // Set that image path to the profile
-                    doc.setData(["photo": path], merge: true) { error in
-                        if error == nil {
-                                // Success, notify caller
-                            completion(true)
+                        // Get full url to image
+                    fileRef.downloadURL { url, error in
+                            // Check for errors
+                        if url != nil && error == nil {
+                                // Set that image path to the profile
+                            doc.setData(["photo": url?.absoluteString], merge: true) { error in
+                                if error == nil {
+                                        // Success, notify caller
+                                    completion(true)
+                                }
+                            }
+                        } else {
+                                // Wasn't successfull in getting download url for photo
+                            completion(false)
                         }
                     }
-                }
-                else {
+                } else {
                         // Upload wasn't successful, notify caller
                     completion(false)
                 }
             }
+        } else {
+                // No image was set
+            completion(true)
         }
     }
     
     func checkUserProfile(completion: @escaping (Bool) -> Void) {
-        // Check tha the user is logged
+            // Check tha the user is logged
         guard AuthViewModel.isUserLoggedIn() != false else {
             return
         }
         
-        // Create Firebas ref
+            // Create Firebas ref
         let db = Firestore.firestore()
         
         db.collection("users").document(AuthViewModel.getLoggedInUserId()).getDocument { snapshot, error in
-            // TODO: Keeps the user profile data
-            // TODO: Look into using Result type to indicate failure
+                // TODO: Keeps the user profile data
+                // TODO: Look into using Result type to indicate failure
             if snapshot != nil && error == nil {
-                // Notify that profile exists
+                    // Notify that profile exists
                 completion(snapshot!.exists)
             } else {
                 completion(false)
             }
-           
+            
         }
+    }
+    
+    // MARK: - Chat methods
+    
+    /// This method returns all chat documents where the logged in user is a participant
+    func getAllChats(completion: @escaping ([Chat]) -> Void) {
+        
+            // Get a reference to the database
+        let db = Firestore.firestore()
+        
+            // Perform a query against the chat collection for any chats where the user is a participant
+        let chatsQuery = db.collection("chats")
+            .whereField("participants",
+                        arrayContains: AuthViewModel.getLoggedInUserId())
+        
+        chatsQuery.getDocuments { snapshot, error in
+            
+            if snapshot != nil && error == nil {
+                
+                var chats = [Chat]()
+                
+                    // Loop through all the returned chat docs
+                for doc in snapshot!.documents {
+                    
+                        // Parse the data into Chat structs
+                    let chat = try? doc.data(as: Chat.self)
+                    
+                        // Add the chat into the array
+                    if let chat = chat {
+                        chats.append(chat)
+                    }
+                }
+                
+                    // Return the data
+                completion(chats)
+            }
+            else {
+                print("Error in database retrieval")
+            }
+        }
+    }
+    
+    /// This method returns all messages for a given chats
+    func getAllMessages(chat: Chat, completion: @escaping ([ChatMessage]) -> Void) {
+            // Check that the is is no nil
+        guard chat.id != nil else {
+                // Can't fetch data
+            completion([ChatMessage]())
+            return
+        }
+        
+            // Get a reference to the database
+        let db = Firestore.firestore()
+            // Create the query
+        let msgsQuery = db.collection("chats")
+            .document(chat.id!)
+            .collection("msgs")
+            .order(by: "timestamp")
+            // Perform the query
+        msgsQuery.getDocuments { snapshot, error in
+            if snapshot != nil && error == nil {
+                var messages = [ChatMessage]()
+                    // Loop through the msg documents and create ChatMessage instances
+                for doc in snapshot!.documents {
+                        // Parse the data into Chat structs
+                    let msg = try? doc.data(as: ChatMessage.self)
+                        // Add the chat into the array
+                    if let msg = msg {
+                        messages.append(msg)
+                    }
+                }
+                
+                    // Return the data
+                completion(messages)
+            } else {
+                print("Error in databsae retrieval")
+            }
+        }
+    }
+    
+    /// Send a message to the database
+    func sendMessage(msg: String, chat: Chat) {
+        // Check that it's a valid chat
+        guard chat.id != nil else {
+            return
+        }
+        
+        // Get a reference to dabase
+        let db = Firestore.firestore()
+        
+        // Add msg document
+        db.collection("chats")
+            .document(chat.id!)
+            .collection("msgs")
+            .addDocument(data: ["imageurl": "",
+                                "msg": msg,
+                                "senderid": AuthViewModel.getLoggedInUserId(),
+                                "timestamp": Date()])
     }
 }
