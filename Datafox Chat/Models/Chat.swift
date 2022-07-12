@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 
 struct Chat: Codable, Identifiable {
     @DocumentID var id: String?
-    var numparticpants: Int
+    var numparticipants: Int
     var participans: [String]
     var lastmsg: String?
     @ServerTimestamp var updated: Date?
