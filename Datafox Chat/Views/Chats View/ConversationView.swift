@@ -33,7 +33,7 @@ struct ConversationView: View {
                             .foregroundColor(Color("text-header"))
                             .frame(width: 24, height: 24)
                     }
-                    
+                    .padding(.bottom, 16)
                     // Name
                     if participants.count > 0 {
                         let participant = participants.first
@@ -56,11 +56,13 @@ struct ConversationView: View {
             .frame(height: 104)
             
             
-            // Chart log
-            ScrollView {
+            // Chat log
+            // ScrollView Reader needed to go the last message
+            ScrollViewReader { proxy in
+                ScrollView {
                 VStack(spacing: 24) {
-                    
-                    ForEach(chatViewModel.messages) { msg in
+                    // Need Array to get the index
+                    ForEach(Array(chatViewModel.messages.enumerated()), id: \.element) { index, msg in
                         let isFromUser = msg.senderid == AuthViewModel.getLoggedInUserId()
                         
                         // Dynamic message
@@ -91,16 +93,23 @@ struct ConversationView: View {
                                 Text(DateHelper.chatTimeStampFrom(date: msg.timestamp))
                                     .font(Font.smallText)
                                     .foregroundColor(Color("text-textfield"))
-                                    .padding(.trailing)
+                                    .padding(.leading)
                             }
                         }
+                        .id(index) // with index we can go to last message
                     }
                 }
                 .padding(.horizontal)
                 .padding(.top, 24)
             }
-            .background(Color("background"))
-            .ignoresSafeArea()
+                .background(Color("background"))
+                // goes to last message
+                .onChange(of: chatViewModel.messages.count) { newCount in
+                    withAnimation {
+                        proxy.scrollTo(newCount - 1)
+                    }
+                }
+            }
             
             // Chat message bar
             ZStack {
@@ -108,7 +117,7 @@ struct ConversationView: View {
                 HStack(spacing: 16) {
                     // Camera button
                     Button {
-                        //
+                        // TODO: Picker
                     } label: {
                         Image(systemName: "camera")
                             .resizable()
@@ -132,7 +141,7 @@ struct ConversationView: View {
                             Spacer()
                             
                             Button {
-                                //
+                                // Emojis
                             } label: {
                                 Image(systemName: "face.smiling")
                                     .resizable()
@@ -147,6 +156,8 @@ struct ConversationView: View {
                 
                     // Send button
                     Button {
+                        // Limpiar text msg
+                        chatMessage = chatMessage.trimmingCharacters(in: .whitespacesAndNewlines)
                         // Send message
                         chatViewModel.sendMessage(msg: chatMessage)
                         // Clear textbox
@@ -158,7 +169,7 @@ struct ConversationView: View {
                             .frame(width: 24, height: 24)
                             .tint(Color("icons-primary"))
                     }
-
+                    .disabled(chatMessage.trimmingCharacters(in: .whitespacesAndNewlines) == "")
                 }
                 .padding(.horizontal)
             }
@@ -171,6 +182,10 @@ struct ConversationView: View {
             // Try to get the other participants as User instances
             let ids = chatViewModel.getParticipantIds()
             self.participants = contactsViewModel.getParticipants(ids: ids)
+        }
+        .onDisappear {
+            // Do any necesary clean up before conversation view disappears
+            chatViewModel.conversationViewCleanup()
         }
     }
 }

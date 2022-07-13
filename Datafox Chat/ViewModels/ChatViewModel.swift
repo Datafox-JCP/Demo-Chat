@@ -96,6 +96,14 @@ class ChatViewModel: ObservableObject {
         databaseService.sendMessage(msg: msg, chat: selectedChat!)
     }
     
+    func conversationViewCleanup() {
+        databaseService.detachConversationViewListeners()
+    }
+    
+    func chatListViewCleanup() {
+        databaseService.detachChatListViewListeners()
+    }
+    
     // MARK: - Helper methods
     /// Takes in a list of user ids, removes the user from that list and list and returns the remaining ids
     func getParticipantIds() -> [String] {

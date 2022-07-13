@@ -77,6 +77,7 @@ class ContactsViewModel: ObservableObject {
         })
     }
     
+    /// Given a list of user ids, return a list of user object than have the same user ids
     func getParticipants(ids: [String]) -> [User] {
         
         // Filter our the users list for only the participants based on ids passed in

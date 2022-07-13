@@ -35,6 +35,8 @@
 		C62E9F24287500AA0048C8D4 /* TextHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9F23287500AA0048C8D4 /* TextHelper.swift */; };
 		C62E9F26287516560048C8D4 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62E9F25287516560048C8D4 /* ImagePicker.swift */; };
 		C662478B287C953A00500438 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C662478A287C953A00500438 /* DateHelper.swift */; };
+		C665BEB6287DF2BF00A93F72 /* ChatsListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C665BEB5287DF2BF00A93F72 /* ChatsListRow.swift */; };
+		C665BEB8287E4B8500A93F72 /* CacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C665BEB7287E4B8500A93F72 /* CacheService.swift */; };
 		C6679867287D029B00117762 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C6679866287D029B00117762 /* FirebaseAuth */; };
 		C6679869287D029B00117762 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C6679868287D029B00117762 /* FirebaseFirestore */; };
 		C667986B287D029B00117762 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C667986A287D029B00117762 /* FirebaseFirestoreSwift */; };
@@ -79,6 +81,8 @@
 		C62E9F23287500AA0048C8D4 /* TextHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextHelper.swift; sourceTree = "<group>"; };
 		C62E9F25287516560048C8D4 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		C662478A287C953A00500438 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		C665BEB5287DF2BF00A93F72 /* ChatsListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsListRow.swift; sourceTree = "<group>"; };
+		C665BEB7287E4B8500A93F72 /* CacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheService.swift; sourceTree = "<group>"; };
 		C6ABCB452877BDCC00865061 /* ContactsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsListView.swift; sourceTree = "<group>"; };
 		C6ABCB472877BDE100865061 /* ChatsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsListView.swift; sourceTree = "<group>"; };
 		C6AC509B2878A2E700FAF83F /* ContactRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactRow.swift; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				C62E9F212874FD9A0048C8D4 /* DatabaseService.swift */,
+				C665BEB7287E4B8500A93F72 /* CacheService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 			children = (
 				C6ABCB472877BDE100865061 /* ChatsListView.swift */,
 				C6AC509D2878BA6800FAF83F /* ConversationView.swift */,
+				C665BEB5287DF2BF00A93F72 /* ChatsListRow.swift */,
 			);
 			path = "Chats View";
 			sourceTree = "<group>";
@@ -361,6 +367,7 @@
 				C62E9F1A2873FF590048C8D4 /* OnboardingButtonStyle.swift in Sources */,
 				C6ABCB482877BDE100865061 /* ChatsListView.swift in Sources */,
 				C62E9EDE2873887A0048C8D4 /* RootView.swift in Sources */,
+				C665BEB8287E4B8500A93F72 /* CacheService.swift in Sources */,
 				C62E9F202874FA550048C8D4 /* User.swift in Sources */,
 				C6AC50A328790EA900FAF83F /* RoundedCorner+Ext.swift in Sources */,
 				C62E9F102873D85F0048C8D4 /* WelcomeView.swift in Sources */,
@@ -377,6 +384,7 @@
 				C62E9F26287516560048C8D4 /* ImagePicker.swift in Sources */,
 				C62E9EFC2873BB630048C8D4 /* TabBarButton.swift in Sources */,
 				C62E9EDC2873887A0048C8D4 /* Datafox_ChatApp.swift in Sources */,
+				C665BEB6287DF2BF00A93F72 /* ChatsListRow.swift in Sources */,
 				C6AC509E2878BA6800FAF83F /* ConversationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

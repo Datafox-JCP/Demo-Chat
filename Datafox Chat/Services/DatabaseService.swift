@@ -13,6 +13,9 @@ import FirebaseStorage
 
 class DatabaseService {
     
+    var chatListViewListeners = [ListenerRegistration]()
+    var conversationViewListeners = [ListenerRegistration]()
+    
     func getPlaformUsers(localContacts: [CNContact], completion: @escaping ([User]) -> Void ) {
         
             // Array where we're stroing fetched platform users
@@ -55,7 +58,7 @@ class DatabaseService {
                         }
                     }
                     
-                        // Check if we have anym0re numbers to look up
+                        // Check if we have anymore numbers to look up
                         // If not, we can call the completion block
                     if lookupPhoneNumbers.isEmpty {
                             // Return the users
@@ -88,10 +91,8 @@ class DatabaseService {
         
             // Check if an image is passed through
         if let image = image {
-            
                 // Create storage reference
             let storageRef = Storage.storage().reference()
-            
                 // Turn our image into data
             let imageData = image.jpegData(compressionQuality: 0.8)
             
@@ -113,7 +114,7 @@ class DatabaseService {
                             // Check for errors
                         if url != nil && error == nil {
                                 // Set that image path to the profile
-                            doc.setData(["photo": url?.absoluteString], merge: true) { error in
+                            doc.setData(["photo": url!.absoluteString], merge: true) { error in
                                 if error == nil {
                                         // Success, notify caller
                                     completion(true)
@@ -146,11 +147,11 @@ class DatabaseService {
         
         db.collection("users").document(AuthViewModel.getLoggedInUserId()).getDocument { snapshot, error in
                 // TODO: Keeps the user profile data
-                // TODO: Look into using Result type to indicate failure
             if snapshot != nil && error == nil {
                     // Notify that profile exists
                 completion(snapshot!.exists)
             } else {
+                    // TODO: Look into using Result type to indicate failure
                 completion(false)
             }
             
@@ -162,15 +163,15 @@ class DatabaseService {
     /// This method returns all chat documents where the logged in user is a participant
     func getAllChats(completion: @escaping ([Chat]) -> Void) {
         
-            // Get a reference to the database
+        // Get a reference to the database
         let db = Firestore.firestore()
         
-            // Perform a query against the chat collection for any chats where the user is a participant
+        // Perform a query against the chat collection for any chats where the user is a participant
         let chatsQuery = db.collection("chats")
             .whereField("participants",
                         arrayContains: AuthViewModel.getLoggedInUserId())
         
-        chatsQuery.getDocuments { snapshot, error in
+        let listener = chatsQuery.addSnapshotListener { snapshot, error in
             
             if snapshot != nil && error == nil {
                 
@@ -195,44 +196,51 @@ class DatabaseService {
                 print("Error in database retrieval")
             }
         }
+        
+        // Keep track onf the listener so that we can close it later
+        chatListViewListeners.append(listener)
     }
     
     /// This method returns all messages for a given chats
     func getAllMessages(chat: Chat, completion: @escaping ([ChatMessage]) -> Void) {
-            // Check that the is is no nil
+        // Check that the is is no nil
         guard chat.id != nil else {
-                // Can't fetch data
+            // Can't fetch data
             completion([ChatMessage]())
             return
         }
         
-            // Get a reference to the database
+        // Get a reference to the database
         let db = Firestore.firestore()
-            // Create the query
+        // Create the query
         let msgsQuery = db.collection("chats")
             .document(chat.id!)
             .collection("msgs")
             .order(by: "timestamp")
-            // Perform the query
-        msgsQuery.getDocuments { snapshot, error in
+        
+        // Perform the query
+        let listener = msgsQuery.addSnapshotListener { snapshot, error in
             if snapshot != nil && error == nil {
                 var messages = [ChatMessage]()
-                    // Loop through the msg documents and create ChatMessage instances
+                // Loop through the msg documents and create ChatMessage instances
                 for doc in snapshot!.documents {
-                        // Parse the data into Chat structs
+                    // Parse the data into Chat structs
                     let msg = try? doc.data(as: ChatMessage.self)
-                        // Add the chat into the array
+                    // Add the chat into the array
                     if let msg = msg {
                         messages.append(msg)
                     }
                 }
                 
-                    // Return the data
+                // Return the data
                 completion(messages)
             } else {
-                print("Error in databsae retrieval")
+                print("Error in database retrieval")
             }
         }
+        
+            // Keep track onf the listener so that we can close it later
+            conversationViewListeners.append(listener)
     }
     
     /// Send a message to the database
@@ -241,6 +249,7 @@ class DatabaseService {
         guard chat.id != nil else {
             return
         }
+
         
         // Get a reference to dabase
         let db = Firestore.firestore()
@@ -253,6 +262,13 @@ class DatabaseService {
                                 "msg": msg,
                                 "senderid": AuthViewModel.getLoggedInUserId(),
                                 "timestamp": Date()])
+        
+        // Update chat document ti reflect msg just sent
+        db.collection("chats")
+            .document(chat.id!)
+            .setData(["updated": Date(),
+                     "lastmsg": msg],
+                     merge: true)
     }
     
     func createChat(chat: Chat, completion: @escaping (String) -> Void) {
@@ -266,5 +282,17 @@ class DatabaseService {
             // Communicate the document id
             completion(doc.documentID)
         })
+    }
+    
+    func detachChatListViewListeners() {
+        for listener in chatListViewListeners {
+            listener.remove()
+        }
+    }
+    
+    func detachConversationViewListeners() {
+        for listener in conversationViewListeners {
+            listener.remove()
+        }
     }
 }

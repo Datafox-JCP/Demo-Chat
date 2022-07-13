@@ -17,11 +17,11 @@ struct WelcomeView: View {
             
             Image("onboarding-welcome")
             
-            Text("Welcome to Datafox Chat")
+            Text("Welcome to Test Chat")
                 .font(Font.titleText)
                 .padding(.top, 32)
             
-            Text("Support for Datafox Point of Sale customers")
+            Text("Model app for Cyphertop chat functions and styles")
                 .font(Font.bodyParagraph)
                 .padding(.top, 8)
             
@@ -35,7 +35,7 @@ struct WelcomeView: View {
             }
             .buttonStyle(OnboardingButtonStyle())
             
-            Text("By tapping 'Get Started', you agree to our Privacy Policy")
+            Text("By tapping 'Get Started'...")
                 .font(Font.smallText)
                 .padding(.top, 14)
                 .padding(.bottom, 60)
