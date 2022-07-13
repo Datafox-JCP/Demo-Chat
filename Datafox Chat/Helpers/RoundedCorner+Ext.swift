@@ -2,12 +2,13 @@
 //  RoundedCorner+Ext.swift
 //  Datafox Chat
 //
-//  Created by Juan Hernandez Pazos on 08/07/22.
+//  Created by Juan Hernandez Pazos on 10/07/22.
 //
 
 import Foundation
 import SwiftUI
 
+// TODO: Para el buble de los mensajes
 // https://stackoverflow.com/questions/56760335/round-specific-corners-swiftui
 extension View {
     func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {

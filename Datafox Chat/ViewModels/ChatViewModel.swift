@@ -17,33 +17,34 @@ class ChatViewModel: ObservableObject {
     var databaseService = DatabaseService()
     
     init() {
-        // Retrieved chats when ChatViewModel is created
+        // Recupera los chats cuan es creado ChatViewModel
         getChats()
     }
     
     func getChats() {
-        // Use the database service to retrieve the chats
+        // Usa la base de datos
         databaseService.getAllChats { chats in
-                // Set the retrieved data to the chats property
+                // Carga los chats encontrados
             self.chats = chats
         }
     }
         
     func getMessages() {
-        // Check that there's a selected chat
+        // Verifica que haya un chat seleccionado
         guard selectedChat != nil else {
             return
         }
         
         databaseService.getAllMessages(chat: selectedChat!) { msgs in
-            // Set returned messages to property
+            // Devuelve los mensajes
             self.messages = msgs
         }
     }
     
-    /// Search for chat with passed in user, if found, set as selected chat. If not found, create a new chat
+    // TODO: Adaptar
+    /// Buscar chat con el usuario indicado, si se encuentra definir con chart activo. Si no crear nuevo
     func getChatsFor(contact: User) {
-        // Check the user
+        // Verificar que haya usuario
         guard contact.id != nil else {
             return
         }
@@ -52,14 +53,15 @@ class ChatViewModel: ObservableObject {
             return chat.numparticipants == 2 && chat.participans.contains(contact.id!)
         }
         
-        // Found a chat between the user and the contact
+        // Encontrado chat entre el usuario y el contacto
         if !foundChat.isEmpty {
-            // Set as selected chat
+            // Definir como chat seleccionado
             self.selectedChat = foundChat.first!
-            // Fetch the messages
+            // Cargar mensajes
             getMessages()
         } else {
-            // No chat was found create a new one
+            // TODO: Para grupos añadir rol y variable participantes
+            // No hay chat, crear nuevo
             let newChat = Chat(
                 id: nil,
                 numparticipants: 2,
@@ -68,10 +70,10 @@ class ChatViewModel: ObservableObject {
                 updated: nil,
                 msgs: nil)
             
-            // Set as selected chat
+            // Definir como chat seleccionado
             self.selectedChat = newChat
             
-            // Save new chat to the database
+            // Guardar en base de datos
             databaseService.createChat(chat: newChat) { docId in
                 self.selectedChat = Chat(
                     id: docId,
@@ -81,14 +83,14 @@ class ChatViewModel: ObservableObject {
                     updated: nil,
                     msgs: nil)
                 
-                // Add chat to the chat list
+                // Añadir chat a la lista de chats
                 self.chats.append(self.selectedChat!)
             }
         }
     }
     
     func sendMessage(msg: String) {
-        // Check taht we have a selected chat
+        // Verificar que haya chat seleccionado
         guard selectedChat != nil else {
             return
         }
@@ -96,6 +98,7 @@ class ChatViewModel: ObservableObject {
         databaseService.sendMessage(msg: msg, chat: selectedChat!)
     }
     
+    // TODO: Pueden servir para guardar en base de datos y codificar
     func conversationViewCleanup() {
         databaseService.detachConversationViewListeners()
     }
@@ -104,15 +107,16 @@ class ChatViewModel: ObservableObject {
         databaseService.detachChatListViewListeners()
     }
     
-    // MARK: - Helper methods
-    /// Takes in a list of user ids, removes the user from that list and list and returns the remaining ids
+    // MARK: - Metodos auxiliares
+    // TODO: Obtiene los participantes del chat
+    /// Toma un lista de ids de usuario, retira el usuario de la lista de ids y devuelve los restantes
     func getParticipantIds() -> [String] {
-        // Check that we have a selected chat
+        // Verificar que haya chat seleccionado
         guard selectedChat != nil else {
             return [String]()
         }
         
-        // Filter out the user's id
+        // Filtrar los ids de usuarios
         let ids = selectedChat!.participans.filter { id in
             id != AuthViewModel.getLoggedInUserId()
         }

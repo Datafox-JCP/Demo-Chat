@@ -19,68 +19,69 @@ class ContactsViewModel: ObservableObject {
     
     func getLocalContacts() {
         
-        // Perform the contact store method asynchronously for not block the main UIT
+        // Ejecutar método de forma asincrona - no bloquear la UI
         DispatchQueue.init(label: "getcontacts").async {
             do {
-                // Ask for permission
+                // Permiso
                 let store = CNContactStore()
                 
-                // List of keys we want to get
+                // Claves a obtener
                 let keys = [CNContactPhoneNumbersKey,
                             CNContactGivenNameKey,
                             CNContactFamilyNameKey] as [CNKeyDescriptor]
                 
-                // Create a Fetch request
+                // Crear Fetch request
                 let fetchRequest = CNContactFetchRequest(keysToFetch: keys)
                 
-                // Get the contacts on the user's phone
+                // Obtener contactos del dispositvo
                 try store.enumerateContacts(with: fetchRequest, usingBlock: { contact, success in
-                    // Do something with the contact
+                    //  Añadir el contacto
                     self.localContacts.append(contact)
                 })
                 
-                // See which local contaxts are actually users of this app
+                // Cuáles contactos son usuarios del app
                 DatabaseService().getPlaformUsers(localContacts: self.localContacts) { platformUsers in
                 
-                    // Update the UI in the main thread
+                    // Atualizar la UI
                     DispatchQueue.main.async {
-                        // Get the fethed users to the published users property
+                        // Obtener los usuarios
                         self.users = platformUsers
                         
-                        // Set the filtered list
+                        // Defnir listra filtrada
                         self.filterContacts(filterBy: self.filterText)
                     }
                 }
             }
             catch {
-                // Handle error
+                // Manejar error
             }
         }
     }
     
+    // TODO: Función de búsqueda de contactos
     func filterContacts(filterBy: String) {
-        // Store parameter into property
+        // Almacenar parámetro en propiedad
         self.filterText = filterBy
         
-        // If filter text is empty, then reveal all users
+        // Si el filtro de texto está vacio, mostrar todos los usuarios
         if filterText == "" {
             self.filteredUsers = users
             return
         }
         
-        // Run the user list through the filter term to get the list of filtered isers
+        // Ejecuta el filtro
         self.filteredUsers = users.filter( { user in
-            // Criteria for including this user into filtered users list
+            // Criterio para los usuarios en el filtro
             user.firstname?.lowercased().contains(filterText) ?? false ||
             user.lastname?.lowercased().contains(filterText) ?? false ||
             user.phone?.lowercased().contains(filterText) ?? false
         })
     }
     
-    /// Given a list of user ids, return a list of user object than have the same user ids
+    /// Dada una lista de ids devolver una lusta de objetos user con los mismos ids
     func getParticipants(ids: [String]) -> [User] {
         
-        // Filter our the users list for only the participants based on ids passed in
+        // TODO: Filtrar los usuarios para mostrar sólo los participantes (Esto para los chats, resuelve el tema de Grupos
         let foundUsers = users.filter { user in
             if user.id == nil {
                 return false

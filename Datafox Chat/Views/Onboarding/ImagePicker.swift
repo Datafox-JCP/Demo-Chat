@@ -2,7 +2,8 @@
 //  ImagePicker.swift
 //  Image Picker Demo
 //
-//  Created by Chris Ching on 2021-11-02.
+//  Created by Juan Hernandez Pazos on 5/07/22.
+//
 //
 
 import Foundation
@@ -42,25 +43,25 @@ class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationContro
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // Run code when the user has selected an image
+        // Ejecutar código cuando se ha seleccionado imagen
         print("image selected")
         
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             
-            // We were able to get the image
+            // Se pudo obtener la imagen
             DispatchQueue.main.async {
                 self.parent.selectedImage = image
             }
         }
-        // Dismiss the picker
+        // Cerrar el picker
         parent.isPickerShowing = false
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        // Run code when the user has cancelled the picker UI
+        // Ejecutar código si el eusuario cancela el picker UI
         print("cancelled")
         
-        // Dismiss the picker
+        // Cerrar el picker
         parent.isPickerShowing = false
     }
 }

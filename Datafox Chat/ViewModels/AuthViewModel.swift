@@ -27,34 +27,34 @@ class AuthViewModel {
     }
     
     static func sendPhoneNumber(phone: String, completion: @escaping (Error?) -> Void) {
-        // Send the phone number to Firebase Auth
+        //Enviar número de telefono para autorización
         PhoneAuthProvider.provider().verifyPhoneNumber(phone, uiDelegate: nil) { verificationId, error in
             if error == nil {
-                // Got the verification id and saved to local storage
+                // Guarda el id de verificación
                 UserDefaults.standard.set(verificationId, forKey: "authVerificationID")
                 
             }
             
             DispatchQueue.main.async {
-                // There was a problem sending the phone number
-                // Notify the UI
+                // Error
+                // Notificar a UI
                 completion(error)
             }
         }
     }
     
     static func verifyCode(code: String, completion: @escaping (Error?) -> Void) {
-        // Get the verification id to from local storage
+        // Obtener el id de verificación del local
         let verificationId = UserDefaults.standard.string(forKey: "authVerificationID") ?? ""
         
-        // Send the code and the verification id to Firebase
+        // Enviar código a Firebase
         let credential = PhoneAuthProvider.provider().credential(withVerificationID: verificationId, verificationCode: code)
         
-        // Sing in the user
+        // Logear usuario
         Auth.auth().signIn(with: credential) { result, error in
             DispatchQueue.main.async {
-                // There was a problem sending the phone number
-                // Notify the UI
+                // Error
+                // Notificar a la UI
                 completion(error)
             }
             

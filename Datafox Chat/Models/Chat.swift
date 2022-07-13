@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+    // TODO: Sólo muestra - pero no olvidar Hashable para poder ejecutar la función de ir al último mensaje
 struct Chat: Codable, Identifiable {
     @DocumentID var id: String?
     var numparticipants: Int

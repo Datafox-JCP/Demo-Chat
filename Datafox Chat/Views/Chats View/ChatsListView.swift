@@ -17,7 +17,7 @@ struct ChatsListView: View {
     var body: some View {
         
         VStack {
-                // Heading
+                // Encabezado
                 HStack {
                     Text("Chats")
                         .font(Font.pageTitle)
@@ -36,13 +36,13 @@ struct ChatsListView: View {
                 .padding(.top, 20)
                 .padding(.horizontal)
             
-            // Chat list
+            // Lista de chats
             if chatViewModel.chats.count > 0 {
                 List(chatViewModel.chats) { chat in
                     Button {
-                        // Set selected chat for the chatviewmodel
+                        // Fijar hat seleccionado del viewmodel
                         chatViewModel.selectedChat = chat
-                        // display conversation view
+                        // mostrar conversación
                         isChatShowing = true
                     } label: {
                         ChatsListRow(otherParticipants: contactsViewModel.getParticipants(ids: chat.participans), chat: chat)
@@ -57,11 +57,11 @@ struct ChatsListView: View {
                 
                 Image("no-chats-yet")
                 
-                Text("Hmm... chats hereyey?")
+                Text("No hay chats")
                     .font(Font.titleText)
                     .padding(.top, 32)
                 
-                Text("Chat a friend to get started")
+                Text("Mensaje...")
                     .font(Font.bodyParagraph)
                     .padding(.top, 8)
                 

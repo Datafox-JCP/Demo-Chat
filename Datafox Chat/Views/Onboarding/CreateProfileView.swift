@@ -31,7 +31,7 @@ struct CreateProfileView: View {
             Spacer()
             
             Button {
-                    // Show action sheet
+                    // Mostrar action sheet
                 isSourceMenuShowing = true
             } label: {
                 ZStack {
@@ -64,16 +64,17 @@ struct CreateProfileView: View {
             Spacer()
             
             Button {
-                // Prevent double taps
+                // TODO: Revisar en app esto
+                // Prevenir double taps
                 isSaveButtonDisable = true
-                // Save the data
+                // Guardar los datos
                 DatabaseService().setUserProfile(firstName: firstName,
                                                lastName: lastName,
                                                  image: selectedImage) { isSuccess in
                     if isSuccess {
                         currentStep = .contacts
                     } else {
-                        // TODO: Show error message to the user
+                        //
                     }
                     isSaveButtonDisable = true
                 }
@@ -86,21 +87,22 @@ struct CreateProfileView: View {
             .padding(.bottom, 86)
         }
         .padding(.horizontal)
+        // TODO: Para implementar
         .confirmationDialog("From where?", isPresented: $isSourceMenuShowing
                             , actions: {
             Button {
-                // Set the source to photo library
-                // Show the image picker
+                // Fuente library
+                // Mostrar image picker
                 self.source = .photoLibrary
                 isPickerShowing = true
             } label: {
-                Text("Photo librery")
+                Text("Photo library")
             }
             
             if UIImagePickerController.isSourceTypeAvailable(.camera) {
                 Button {
-                    // Set the source to camera
-                    // Show the image picker
+                    // Fuente camera
+                    // Mostrar camara
                     self.source = .camera
                     isPickerShowing = true
                 } label: {
@@ -109,7 +111,7 @@ struct CreateProfileView: View {
             }
         })
         .sheet(isPresented: $isPickerShowing) {
-                // Show the image picker
+                // Mostrar image picker
             ImagePicker(selectedImage: $selectedImage, isPickerShowing: $isPickerShowing, source: self.source)
         }
     }

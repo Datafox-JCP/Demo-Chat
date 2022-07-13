@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RootView: View {
-    // For detecting when app state changes
+    // Detectar el cambio de estado
     @Environment(\.scenePhase) var scenePhase
     
     @EnvironmentObject var chatViewModel: ChatViewModel
@@ -37,19 +37,21 @@ struct RootView: View {
         .fullScreenCover(isPresented: $isOnboarding) {
                 // On dismiss
         } content: {
-                // The onboarding sequence
+                // Secuencia onboarding
             OnboardingContainerView(isOnboarding: $isOnboarding)
         }
         .fullScreenCover(isPresented: $isChatShowing, onDismiss: nil) {
-            // The conversation view
+            // Conversation view
             ConversationView(isChatShowing: $isChatShowing)
         }
         .onChange(of: scenePhase) { newPhase in
             if newPhase == .active {
-                print("Active")
+                // TODO: Evaluar la condición de bloqueo
+                print("Activa")
             } else if newPhase == .inactive {
                 print("Inactive")
             } else if newPhase == .background {
+                // TODO: Poner en true para bloqueo
                 chatViewModel.chatListViewCleanup()
             }
         }

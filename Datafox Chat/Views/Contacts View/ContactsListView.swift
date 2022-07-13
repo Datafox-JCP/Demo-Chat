@@ -20,7 +20,7 @@ struct ContactsListView: View {
         
         VStack {
             
-            // Heading
+            // Encabezado
             HStack {
                 Text("Contacts")
                     .font(Font.pageTitle)
@@ -38,7 +38,7 @@ struct ContactsListView: View {
             }
             .padding(.top, 20)
             
-            // Search bar
+            // Búsqueda
             ZStack {
                 Rectangle()
                     .foregroundColor(.white)
@@ -50,22 +50,23 @@ struct ContactsListView: View {
             }
             .frame(height: 46)
             .onChange(of: filterText) { _ in
-                // Filter the results
+                // Filtrar los resultados
+                // TODO: funciona, considerar en vez de Navigation
                 contactsViewModel.filterContacts(filterBy: filterText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines))
             }
             
             if contactsViewModel.filteredUsers.count > 0 {
-                // List
+                // Lista
                 List(contactsViewModel.filteredUsers) { user in
                     
                     Button {
-                        // Search for an existing conversation with this user
+                        // Buscar la conversación existente con el contacto
                         chatViewModel.getChatsFor(contact: user)
                         
-                        // Display conversation view
+                        // Mostrar conversation view
                         isChatShowing = true
                     } label: {
-                        // Display rows
+                        // Mostrar rows
                         ContactRow(user: user)
                     }
                     .buttonStyle(.plain)
@@ -79,11 +80,11 @@ struct ContactsListView: View {
                 
                 Image("no-contacts-yet")
                 
-                Text("Hmm... Zero contacts?")
+                Text("Sin contacto")
                     .font(Font.titleText)
                     .padding(.top, 32)
                 
-                Text("Try saving some contacts on your phone!")
+                Text("Mensaje...")
                     .font(Font.bodyParagraph)
                     .padding(.top, 8)
                 
@@ -92,7 +93,7 @@ struct ContactsListView: View {
         }
         .padding(.horizontal)
         .onAppear {
-            // Get local contacts
+            // Contactos locales
             contactsViewModel.getLocalContacts()
         }
     }

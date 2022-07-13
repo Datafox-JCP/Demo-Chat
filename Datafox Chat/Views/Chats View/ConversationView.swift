@@ -19,12 +19,12 @@ struct ConversationView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Chat header
+            // Encabezado
             HStack {
                 VStack(alignment: .leading) {
-                    // Back arrow
+                    // Regresar
                     Button {
-                        // Dismiss chat window
+                        // Cerrar ventana de chat
                         isChatShowing = false
                     } label: {
                         Image(systemName: "arrow.backward")
@@ -46,7 +46,7 @@ struct ConversationView: View {
                 
                 Spacer()
                 
-                // Profile image
+                // Foto perfil
                 if participants.count > 0 {
                     let participant = participants.first
                     ProfileView(user:participant!)
@@ -57,19 +57,19 @@ struct ConversationView: View {
             
             
             // Chat log
-            // ScrollView Reader needed to go the last message
+            // ScrollView Reader para ir al último mensaje
             ScrollViewReader { proxy in
                 ScrollView {
                 VStack(spacing: 24) {
-                    // Need Array to get the index
+                    // TODO: Se usa Array para obtener el índicE
                     ForEach(Array(chatViewModel.messages.enumerated()), id: \.element) { index, msg in
+                        // TODO: Diferenciar por UserId
                         let isFromUser = msg.senderid == AuthViewModel.getLoggedInUserId()
-                        
-                        // Dynamic message
+                    
                         HStack {
                             if isFromUser {
-                                // Timestamp
-                                Text("9:41")
+                                // TODOD: Timestamp integrar con la función del app
+                                Text(DateHelper.chatTimeStampFrom(date: msg.timestamp))
                                     .font(Font.smallText)
                                     .foregroundColor(Color("text-textfield"))
                                     .padding(.trailing)
@@ -77,8 +77,8 @@ struct ConversationView: View {
                                 Spacer()
                             }
                             
-                            // Message
-                            Text(DateHelper.chatTimeStampFrom(date: msg.timestamp))
+                            // Mensajes
+                            Text(msg.msg)
                                 .font(Font.bodyParagraph)
                                 .foregroundColor(isFromUser ? Color("text-button") : Color("text-primary"))
                                 .padding(.vertical, 16)
@@ -96,14 +96,14 @@ struct ConversationView: View {
                                     .padding(.leading)
                             }
                         }
-                        .id(index) // with index we can go to last message
+                        .id(index) // con el index se pasa al último mensaje
                     }
                 }
                 .padding(.horizontal)
                 .padding(.top, 24)
             }
                 .background(Color("background"))
-                // goes to last message
+                // TODO: Función para ir al último mensaje
                 .onChange(of: chatViewModel.messages.count) { newCount in
                     withAnimation {
                         proxy.scrollTo(newCount - 1)
@@ -111,7 +111,7 @@ struct ConversationView: View {
                 }
             }
             
-            // Chat message bar
+            // Barra (integrar con el input dinámico)
             ZStack {
                 Color("background")
                 HStack(spacing: 16) {
@@ -141,7 +141,7 @@ struct ConversationView: View {
                             Spacer()
                             
                             Button {
-                                // Emojis
+                                // ??
                             } label: {
                                 Image(systemName: "face.smiling")
                                     .resizable()
@@ -154,13 +154,14 @@ struct ConversationView: View {
                     }
                     .frame(height: 44)
                 
-                    // Send button
+                    // Enviar
                     Button {
-                        // Limpiar text msg
+                        // Limpiar espacios en mensaje
                         chatMessage = chatMessage.trimmingCharacters(in: .whitespacesAndNewlines)
-                        // Send message
+                        // Enviar mensaje
                         chatViewModel.sendMessage(msg: chatMessage)
-                        // Clear textbox
+                        // Limpiar texto
+                        // TODO: Preguntar si se mantiene habilitado o sólo si hay texto
                         chatMessage = ""
                     } label: {
                         Image(systemName: "paperplane.fill")
@@ -176,15 +177,15 @@ struct ConversationView: View {
             .frame(height: 76)
         }
         .onAppear {
-            // Call chat view model to retrieve all chat messages
+            // Llamada a chat view model para cargar mensajes
             chatViewModel.getMessages()
             
-            // Try to get the other participants as User instances
+            // Obtener otros participantes como instancias de User
             let ids = chatViewModel.getParticipantIds()
             self.participants = contactsViewModel.getParticipants(ids: ids)
         }
         .onDisappear {
-            // Do any necesary clean up before conversation view disappears
+            // TODO: Liberar recursos (cierra conexiones, guarda CoreData...=
             chatViewModel.conversationViewCleanup()
         }
     }

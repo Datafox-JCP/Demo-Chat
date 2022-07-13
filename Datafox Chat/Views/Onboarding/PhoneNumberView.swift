@@ -41,7 +41,7 @@ struct PhoneNumberView: View {
                     Spacer()
                     
                     Button {
-                        // Clear text fields
+                        // Limpiar
                         phoneNumber = ""
                     } label: {
                         Image(systemName: "multiply.circle.fill")
@@ -56,13 +56,13 @@ struct PhoneNumberView: View {
             Spacer()
             
             Button {
-                // Send ther phone number to Firebase Auth
+                // Enviar el teléfono para autentificación
                 AuthViewModel.sendPhoneNumber(phone: phoneNumber) { error in
                     // Check for errors
                     if error == nil {
                         currentStep = .verification
                     } else {
-                        // TODO: Show the error message
+                        ///
                     }
                 }
                 

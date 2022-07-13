@@ -41,7 +41,7 @@ struct VerificationView: View {
                     Spacer()
                     
                     Button {
-                            // Clear text fields
+                            // Limpiar
                         verificationcode = ""
                     } label: {
                         Image(systemName: "multiply.circle.fill")
@@ -56,11 +56,11 @@ struct VerificationView: View {
             Spacer()
             
             Button {
-                    // Send the verification code to Firebase
+                    // Enviar verificación
                 AuthViewModel.verifyCode(code: verificationcode) { error in
-                        // Check for errors
+                        // Verificar errores
                     if error == nil {
-                        // Check if this user has a profile
+                        // Verificar si el usuario tiene perfil
                         DatabaseService().checkUserProfile { exists in
                             if exists {
                                 isOnboarding = false
@@ -69,7 +69,7 @@ struct VerificationView: View {
                             }
                         }
                     } else {
-                            // TODO: Show the error message
+                            // 
                     }
                 }
                 

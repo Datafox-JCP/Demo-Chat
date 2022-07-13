@@ -14,21 +14,21 @@ struct ChatsListRow: View {
     var body: some View {
         
         HStack(spacing: 24) {
-            // Assume at least 1 other participant in the chat
+            // Se asume que al menos hay otro participante
             let participant = otherParticipants?.first
             
-            // Profile image of participants
+            // Imagen de perfil de los participantes
             if participant != nil {
                 ProfileView(user: participant!)
             }
             
             VStack(alignment: .leading, spacing: 4) {
-                // Name
+                // Nombre
                 Text(participant == nil ? "Unknown" : "\(participant!.firstname ?? "") \(participant!.lastname ?? "")")
                     .font(Font.button)
                     .foregroundColor(Color("text-primary"))
                 
-                // Last message
+                // Ultimo mensahe
                 Text(chat.lastmsg ?? "")
                     .font(Font.bodyParagraph)
                     .foregroundColor(Color("text-input"))

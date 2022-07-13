@@ -12,40 +12,41 @@ struct ProfileView: View {
     var user: User
     var body: some View {
         ZStack {
-            // Check if user has a photo set
+            // Vetificar por foto
             if user.photo == nil {
-                    // Display circle with first letter of name
+                    // Circulo y letras
                     ZStack {
                         Circle()
                             .foregroundColor(.white)
                         
-                        Text(user.firstname?.prefix(1) ?? "")
+                        Text(user.firstname?.prefix(2) ?? "")
                             .bold()
                     }
             } else {
-                    // Create URL from user photo url
+                    // URL de foto
                     let photoUrl = URL(string: user.photo ?? "")
-                    // Profile image
+                    // Foto perfil
+                    // TODO: Verificar si es en línea o se guarda
                     AsyncImage(url: photoUrl) { phase in
                         switch phase {
                         case .empty:
-                                // Currently fetching
+                                // Carga
                             ProgressView()
                         case .success(let image):
-                                // Display the fetched image
+                                // Mostrar
                             image
                                 .resizable()
                                 .clipShape(Circle())
                                 .scaledToFill()
                                 .clipped()
                         case .failure:
-                            // Couldn't fetch profile photo
-                            // Display circle with first letter of name
+                            // Error
+                            // Cargar letras
                             ZStack {
                                 Circle()
                                     .foregroundColor(.white)
                                 
-                                Text(user.firstname?.prefix(1) ?? "")
+                                Text(user.firstname?.prefix(2) ?? "")
                                     .bold()
                             }
                         }
@@ -53,7 +54,7 @@ struct ProfileView: View {
                     .frame(width: 44, height: 44)
                     
             }
-                // Blue border
+                // Border
             Circle()
                 .stroke(Color("create-profile-border"), lineWidth: 2)
         }

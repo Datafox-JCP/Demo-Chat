@@ -14,15 +14,16 @@ struct ContactRow: View {
     var body: some View {
         
         HStack(spacing: 24) {
+            // Profile view carga la foto o letras
             ProfileView(user: user)
             
             VStack(alignment: .leading, spacing: 4) {
-                // Name
+                // Nombre
                 Text("\(user.firstname ?? "") \(user.lastname ?? "")")
                     .font(Font.button)
                     .foregroundColor(Color("text-primary"))
                 
-                // Phone number
+                // Teléfono
                 Text(user.phone ?? "")
                     .font(Font.bodyParagraph)
                     .foregroundColor(Color("text-input"))

@@ -17,18 +17,18 @@ struct SyncContactsView: View {
             
             Image("onboarding-all-set")
             
-            Text("Awesome!")
+            Text("Ready")
                 .font(Font.titleText)
                 .padding(.top, 32)
             
-            Text("Continue to start chatting with your friends.")
+            Text("Continue to start chatting.")
                 .font(Font.bodyParagraph)
                 .padding(.top, 8)
             
             Spacer()
             
             Button {
-                // Next step
+                // Siguiente
                 isOnboarding = false
             } label: {
                 Text("Continue")

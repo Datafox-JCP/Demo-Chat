@@ -18,7 +18,7 @@ struct CreateProfileTextfieldStyle: TextFieldStyle {
                 .cornerRadius(8)
                 .frame(height: 46)
             
-            // This references to TextField
+            // Referencia al TextField
             configuration
                 .font(Font.tabBar)
                 .padding(.horizontal)

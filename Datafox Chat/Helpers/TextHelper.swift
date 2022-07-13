@@ -9,6 +9,7 @@ import Foundation
 
 class TextHelper {
     
+    // USando para dejar sólo números de un número de teléfono
     static func samitizePhoneNumber(_ phone: String) -> String {
         
         return phone
@@ -18,7 +19,7 @@ class TextHelper {
             .replacingOccurrences(of: " ", with: "")
     }
     
-    // Limit number of chars
+    // Limitar el número de carácteres
     // https://stackoverflow.com/questions/56476007/swiftui-textfield-max-length
     static func limitText(_ stringvar: inout String, _ limit: Int) {
         if stringvar.count > limit {
@@ -26,7 +27,7 @@ class TextHelper {
         }
     }
     
-    // Format numbers to pattern
+    // Formatear números en base a patrón
     // https://stackoverflow.com/questions/32364055/formatting-phone-number-in-swift
     static func applyPatternOnNumbers(_ stringvar: inout String, pattern: String, replacementCharacter: Character) {
         var pureNumber = stringvar.replacingOccurrences( of: "[^0-9]", with: "", options: .regularExpression)
@@ -42,7 +43,7 @@ class TextHelper {
         }
         stringvar = pureNumber
         
-        // Limit characters to 17 to match +# (###) ###-####
+        // Limitar caracteres a 17 para que sea +# (###) ###-####
         if stringvar.count > 17 {
             stringvar = String(stringvar.prefix(17))
         }

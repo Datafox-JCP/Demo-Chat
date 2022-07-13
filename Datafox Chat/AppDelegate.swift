@@ -23,6 +23,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
     }
     
+    // TODO: Notificaciones?
     func application(_ application: UIApplication, didReceiveRemoteNotification notification: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("\(#function)")
         if Auth.auth().canHandleNotification(notification) {
