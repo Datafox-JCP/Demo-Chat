@@ -185,7 +185,7 @@ struct ConversationView: View {
             self.participants = contactsViewModel.getParticipants(ids: ids)
         }
         .onDisappear {
-            // TODO: Liberar recursos (cierra conexiones, guarda CoreData...=
+            // TODO: Liberar recursos (cierra conexiones, guarda CoreData...)
             chatViewModel.conversationViewCleanup()
         }
     }
